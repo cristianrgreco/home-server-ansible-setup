@@ -1,0 +1,19 @@
+- name: Install microk8s
+  snap:
+    name: microk8s
+    classic: true
+    state: present
+  become: true
+
+- name: Add user to microk8s group
+  user:
+    name: "{{ ansible_user }}"
+    groups: "microk8s"
+    append: yes
+  become: true
+
+- name: Create .kube directory
+  file:
+    path: "/home/{{ ansible_user }}/.kube"
+    state: directory
+    mode: '0700'

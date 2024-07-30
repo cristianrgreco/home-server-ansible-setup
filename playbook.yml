@@ -1,0 +1,4 @@
+- name: home-server
+  hosts: all
+  roles:
+    - microk8s
