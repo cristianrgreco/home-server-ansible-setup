@@ -43,3 +43,9 @@
   args:
     executable: /bin/bash
   changed_when: false
+
+- name: Enable observability addon
+  shell: microk8s enable observability
+  args:
+    executable: /bin/bash
+  changed_when: false
