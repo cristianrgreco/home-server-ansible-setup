@@ -7,8 +7,8 @@ Guest VM is running Ubuntu 24.04 with SSH public key authentication enabled.
 1. Install `pipx` and `ansible` on Host
 
 ```bash
-brew install pipx # OR sudo apt install pipx
-pipx install --include-deps ansible # Follow output for PATH instructions
+brew install pipx  # OR sudo apt install pipx
+pipx install --include-deps ansible  # Follow output for PATH instructions
 ```
 
 ## Running
