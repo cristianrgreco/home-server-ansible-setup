@@ -40,3 +40,51 @@ On the host, open your browser to `http://localhost:3000` and login with `admin`
 There are several pre-built dashboards. Have a look for example at `Kubernetes / Compute Resources / Cluster`.
 
 The observability stack includes Loki, which allows you to query logs. Have a look at the `Explore` view in Grafana and select a label filter.
+
+## Useful commands
+
+```bash
+# Show status and installed/available addons
+microk8s status
+
+# Watch status. Useful after git pushing to the bootstrap repo
+flux get kustomizations --watch
+
+# Get status of helm releases. Useful to see what's happening
+# Note `helmreleases` can be shortened to `hr`
+flux get helmreleases --all-namespaces
+
+# Trigger a reconciliation without waiting for the next interval
+flux reconcile hr -n minecraft minecraft
+
+# Suspend a release so you can make temporary changes
+flux suspend helmrelease -n minecraft minecraft
+
+# Resumes a suspended helm release
+flux resume helmrelease -n minecraft minecraft
+```
+
+## To do
+
+1. Grafana configuration. We want to expose Grafana without port-forwarding.
+
+Custom values can be provided like this:
+
+```bash
+microk8s enable observability --kube-prometheus-stack-values values.yml
+```
+
+Values are here: https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+
+Noteworthy:
+```
+grafana.adminPassword
+grafana.ingress.enabled
+grafana.persistence
+```
+
+If we have to use ingress, and can't for example set the service type to `NodePort`, then we'll likely have to install nginx-ingress as well. Note that microk8s has an addon called 'ingress'.
+
+2. Enable Minecraft backups
+
+https://github.com/itzg/minecraft-server-charts/blob/master/charts/minecraft/values.yaml#L435
