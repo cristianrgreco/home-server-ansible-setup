@@ -17,3 +17,17 @@
     path: /home/{{ ansible_user }}/.kube
     state: directory
     mode: 0700
+
+- name: Install kubectl
+  snap:
+    name: kubectl
+    classic: true
+    state: present
+  become: true
+
+# https://microk8s.io/docs/working-with-kubectl
+- name: Generate microk8s config file
+  shell: microk8s config > /home/{{ ansible_user }}/.kube/config
+  args:
+    executable: /bin/bash
+    creates: /home/{{ ansible_user }}/.kube/config
