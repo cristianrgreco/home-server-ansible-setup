@@ -8,7 +8,7 @@ Guest VM is running Ubuntu 24.04 with SSH public key authentication enabled.
 
 ```bash
 brew install pipx # OR sudo apt install pipx
-pipx install --include-deps ansible # add /Users/<user>/.local/bin to your $PATH
+pipx install --include-deps ansible # Follow output for PATH instructions
 ```
 
 ## Running
