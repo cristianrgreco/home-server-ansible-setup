@@ -2,3 +2,4 @@
   hosts: all
   roles:
     - microk8s
+    - flux

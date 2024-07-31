@@ -1,0 +1,22 @@
+- name: Check if flux installed
+  stat:
+    path: /usr/local/bin/flux
+  register: flux_executable
+
+- name: Download install script
+  get_url:
+    url: https://fluxcd.io/install.sh
+    dest: /tmp/flux-install.sh
+    mode: 0755
+  when: not flux_executable.stat.exists
+
+- name: Run install script
+  shell:
+    cmd: /tmp/flux-install.sh
+    executable: /bin/bash
+    creates: /usr/local/bin/flux
+
+- name: Delete install script
+  file:
+    path: /tmp/flux-install.sh
+    state: absent
