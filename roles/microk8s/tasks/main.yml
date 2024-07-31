@@ -32,6 +32,12 @@
     executable: /bin/bash
     creates: /home/{{ ansible_user }}/.kube/config
 
+- name: Enable metrics-server addon
+  shell: microk8s enable metrics-server
+  args:
+    executable: /bin/bash
+  changed_when: false
+
 - name: Enable hostpath-storage addon
   shell: microk8s enable hostpath-storage
   args:
