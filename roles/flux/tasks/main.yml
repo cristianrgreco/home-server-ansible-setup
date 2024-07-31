@@ -20,3 +20,23 @@
   file:
     path: /tmp/flux-install.sh
     state: absent
+
+- name: Check if cluster bootstrapped with flux
+  shell: kubectl get namespace flux-system
+  register: flux_kubectl_namespace_exists
+  ignore_errors: yes
+  changed_when: false
+
+- name: Run flux bootstrap
+  shell: |
+    flux bootstrap github \
+    --owner={{ github_user }} \
+    --repository={{ repository }} \
+    --branch=main \
+    --path=./clusters/{{ cluster }} \
+    --personal
+  environment:
+    GITHUB_TOKEN: "{{ github_token }}"
+  args:
+    executable: /bin/bash
+  when: flux_kubectl_namespace_exists.rc == 1

@@ -1,5 +1,16 @@
 - name: home-server
-  hosts: all
+  hosts: pi
+
+  vars:
+    cluster: production
+    github_user: cristianrgreco
+    repository: home-server-flux-setup
+
+  vars_prompt:
+    - name: github_token
+      prompt: Enter the GitHub token for Flux to bootstrap the cluster
+      private: yes
+
   roles:
     - microk8s
     - flux
