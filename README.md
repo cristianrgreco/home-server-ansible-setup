@@ -26,7 +26,7 @@ ansible-playbook -i inventory.yml playbook.yml -u <user>
 On the guest, port forward the Grafana port:
 
 ```bash
-kubectl port-forward -n observability service/kube-prom-stack-grafana --address 0.0.0.0 3000:80
+kubectl port-forward -n observability service/kube-prometheus-stack-grafana --address 0.0.0.0 3000:80
 ```
 
 On the host, tunnel the Grafana port to your local machine:
@@ -88,3 +88,5 @@ If we have to use ingress, and can't for example set the service type to `NodePo
 2. Enable Minecraft backups
 
 https://github.com/itzg/minecraft-server-charts/blob/master/charts/minecraft/values.yaml#L435
+
+3. Figure out why the Minecraft pod has retains persistence after it is deleted when it is not a stateful set.
