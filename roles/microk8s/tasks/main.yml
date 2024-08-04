@@ -32,12 +32,6 @@
     state: present
   become: true
 
-- name: Install k9s
-  snap:
-    name: k9s
-    state: present
-  become: true
-
 # https://microk8s.io/docs/working-with-kubectl
 - name: Generate microk8s config file
   shell: microk8s config > /home/{{ ansible_user }}/.kube/config

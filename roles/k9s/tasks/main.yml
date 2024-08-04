@@ -1,0 +1,20 @@
+- name: Check if k9s installed
+  stat:
+    path: /usr/local/bin/k9s
+  register: k9s_executable
+
+- name: Download archive
+  get_url:
+    url: https://github.com/derailed/k9s/releases/download/v{{ k9s_version }}/k9s_linux_{{ k9s_arch }}.deb
+    dest: /tmp/k9s.deb
+  when: not k9s_executable.stat.exists
+
+- name: Install package
+  apt:
+    deb: /tmp/k9s.deb
+  become: true
+
+- name: Delete archive
+  file:
+    path: /tmp/k9s.deb
+    state: absent

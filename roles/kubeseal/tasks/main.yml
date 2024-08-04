@@ -9,24 +9,36 @@
     dest: /tmp/kubeseal-{{ kubeseal_version }}-linux-{{ kubeseal_arch }}.tar.gz
   when: not kubeseal_executable.stat.exists
 
-- name: Extract binary
+- name: Create temporary directory
+  file:
+    path: /tmp/kubeseal
+    state: directory
+  when: not kubeseal_executable.stat.exists
+
+- name: Extract archive
   unarchive:
     src: /tmp/kubeseal-{{ kubeseal_version }}-linux-{{ kubeseal_arch }}.tar.gz
-    dest: /tmp/
+    dest: /tmp/kubeseal
     remote_src: yes
-    creates: /tmp/kubeseal
+  when: not kubeseal_executable.stat.exists
 
 - name: Install binary
   copy:
-    src: /tmp/kubeseal
+    src: /tmp/kubeseal/kubeseal
     dest: /usr/local/bin/kubeseal
     remote_src: yes
     mode: '0755'
   become: true
+  when: not kubeseal_executable.stat.exists
 
 - name: Delete archive
   file:
     path: /tmp/kubeseal-{{ kubeseal_version }}-linux-{{ kubeseal_arch }}.tar.gz
+    state: absent
+
+- name: Delete extracted binary
+  file:
+    path: /tmp/kubeseal
     state: absent
 
 - name: Check if public key exists
