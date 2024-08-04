@@ -13,4 +13,5 @@
 
   roles:
     - microk8s
+    - kubeseal
     - flux
