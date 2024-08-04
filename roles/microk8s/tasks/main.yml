@@ -32,12 +32,24 @@
     state: present
   become: true
 
+- name: Install k9s
+  snap:
+    name: k9s
+    state: present
+  become: true
+
 # https://microk8s.io/docs/working-with-kubectl
 - name: Generate microk8s config file
   shell: microk8s config > /home/{{ ansible_user }}/.kube/config
   args:
     executable: /bin/bash
     creates: /home/{{ ansible_user }}/.kube/config
+
+- name: Set kube config file permissions
+  file:
+    path: /home/{{ ansible_user }}/.kube/config
+    state: file
+    mode: 0600
 
 - name: Enable metrics-server addon
   shell: microk8s enable metrics-server
