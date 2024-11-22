@@ -1,2 +1,2 @@
 kubeseal_version: '0.27.1'
-kubeseal_arch: arm
+kubeseal_arch: arm64

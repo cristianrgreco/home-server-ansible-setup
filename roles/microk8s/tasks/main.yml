@@ -38,21 +38,27 @@
   args:
     executable: /bin/bash
     creates: /home/{{ ansible_user }}/.kube/config
+  become: true
 
 - name: Set kube config file permissions
   file:
     path: /home/{{ ansible_user }}/.kube/config
     state: file
     mode: 0600
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: true
 
 - name: Enable metrics-server addon
   shell: microk8s enable metrics-server
   args:
     executable: /bin/bash
   changed_when: false
+  become: true
 
 - name: Enable hostpath-storage addon
   shell: microk8s enable hostpath-storage
   args:
     executable: /bin/bash
   changed_when: false
+  become: true

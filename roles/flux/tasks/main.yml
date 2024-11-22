@@ -15,6 +15,7 @@
     cmd: /tmp/flux-install.sh
     executable: /bin/bash
     creates: /usr/local/bin/flux
+  become: true
 
 - name: Delete install script
   file:
