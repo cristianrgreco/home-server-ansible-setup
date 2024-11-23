@@ -41,17 +41,3 @@
     path: /tmp/kubeseal
     state: absent
 
-- name: Check if public key exists
-  stat:
-    path: /home/{{ ansible_user }}/pub-sealed-secrets.pem
-  register: public_key
-
-- name: Save public key
-  shell: |
-    kubeseal --fetch-cert \
-    --controller-name=sealed-secrets-controller \
-    --controller-namespace=flux-system \
-    > /home/{{ ansible_user }}/pub-sealed-secrets.pem
-  args:
-    executable: /bin/bash
-  when: not public_key.stat.exists
