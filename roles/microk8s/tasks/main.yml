@@ -49,6 +49,22 @@
     group: "{{ ansible_user }}"
   become: true
 
+# Temporary to see if it causes high memory usage with dsqlite.
+# Disabling this add-on seems to enable etcd instead.
+- name: Disable ha-cluster addon
+  shell: microk8s disable ha-cluster --force
+  args:
+    executable: /bin/bash
+  changed_when: false
+  become: true
+
+- name: Enable dns addon
+  shell: microk8s enable dns
+  args:
+    executable: /bin/bash
+  changed_when: false
+  become: true
+
 - name: Enable metrics-server addon
   shell: microk8s enable metrics-server
   args:
